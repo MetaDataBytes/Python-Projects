@@ -23,15 +23,6 @@ def get_time_counter() -> float:
     """
     return time.perf_counter()
 
-def print_member_registration(start: float, end: float, team: list[dict[str, str]]) -> None:
-    """
-    PURPOSE: print the member registration confirmations\n
-    ARGUMENT: start (float): The start time of the request, end (float): the end time of the request, team (list): a list of api response from api\n
-    RETURN: None\n
-    """
-    print(f"Total run time for processing {len(team)} team members is: {end - start}")
-    for member in team: print(member["form"])
-
 def make_request(member: dict[str, str]) -> json:
     """
     PURPOSE: Make request to api\n
@@ -57,3 +48,12 @@ async def async_request(session: aiohttp.ClientSession, member: dict[str, str]) 
     """
     async with AsyncLimiter(max_rate=10, time_period=60): 
         async with session.post(url="https://httpbin.org/post", data=member) as response: return await response.json()
+
+def print_member_registration(team: list[dict[str, str]], start: float = -1, end: float = -1) -> None:
+    """
+    PURPOSE: print the member registration confirmations\n
+    ARGUMENT: start (float): The start time of the request, end (float): the end time of the request, team (list): a list of api response from api\n
+    RETURN: None\n
+    """
+    if end >= 0: print(f"Total run time for processing {len(team)} team members is: {end - start}")
+    for member in team: print(member["form"])
