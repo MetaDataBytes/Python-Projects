@@ -1,5 +1,5 @@
+from math import sqrt, ceil
 import time
-from typing import Generator
 
 def get_time_counter() -> float:
     """
@@ -9,16 +9,13 @@ def get_time_counter() -> float:
     """
     return time.perf_counter()
 
-def factor_finder(num: int) -> Generator[list[int], any, None]:
+def get_factor_pairs_list(num: int) -> tuple[tuple[int]]:
     """
     PURPOSE: Find all the factor pairs for the provided number\n
     ARGUMENT: num (int): The number to find factor pairs for\n
-    RETURN: A factor pair for the provided number\n
+    RETURN: A list of factor pairs for the provided number\n
     """
-    i = 1
-    while i * i <= num:
-        if num % i == 0: yield [i, num // i]
-        i += 1
+    return ((i, num // i) for i in range(1, ceil(sqrt(num))) if num % i == 0)
 
 def print_factors(factors: list) -> None:
     """
